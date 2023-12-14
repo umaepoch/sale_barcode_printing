@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include sale_barcode_printing *.css
+recursive-include sale_barcode_printing *.csv
+recursive-include sale_barcode_printing *.html
+recursive-include sale_barcode_printing *.ico
+recursive-include sale_barcode_printing *.js
+recursive-include sale_barcode_printing *.json
+recursive-include sale_barcode_printing *.md
+recursive-include sale_barcode_printing *.png
+recursive-include sale_barcode_printing *.py
+recursive-include sale_barcode_printing *.svg
+recursive-include sale_barcode_printing *.txt
+recursive-exclude sale_barcode_printing *.pyc
