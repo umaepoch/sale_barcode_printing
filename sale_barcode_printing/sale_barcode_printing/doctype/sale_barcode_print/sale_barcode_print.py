@@ -39,6 +39,7 @@ class SaleBarcodePrint(Document):
 
             })
         self.update({'barcode_details':barcode_details})
+        self.save()
         counter = 1
         for line in self.barcode_details:
             product = frappe.get_doc("Item", line.item_code)
