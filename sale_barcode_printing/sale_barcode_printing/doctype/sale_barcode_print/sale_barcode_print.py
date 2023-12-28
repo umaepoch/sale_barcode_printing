@@ -23,6 +23,7 @@ class SaleBarcodePrint(Document):
                 'work_order': work_order.name
             })
         self.update({'barcode_details':barcode_details})
+        self.save()
 
     @frappe.whitelist()
     def print_labels(self):
