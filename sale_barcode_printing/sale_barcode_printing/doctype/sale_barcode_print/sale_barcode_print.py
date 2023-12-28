@@ -11,7 +11,7 @@ from frappe.core.utils import html2text
 
 class SaleBarcodePrint(Document):
 
-   @frappe.whitelist()
+    @frappe.whitelist()
     def get_workorders(self):
         if not self.barcode_details:
             barcode_details = []
