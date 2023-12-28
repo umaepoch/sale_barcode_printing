@@ -1,0 +1,12 @@
+[
+    {
+        "doctype": "Custom Field",
+        "dt": "Item",
+        "module": "Sale Barcode Printing",
+        "name": "Size",
+        "fieldname": "size",
+        "fieldtype": "Data",
+        "label": "Size",
+        "insert_after": "stock_uom"
+    }
+]
