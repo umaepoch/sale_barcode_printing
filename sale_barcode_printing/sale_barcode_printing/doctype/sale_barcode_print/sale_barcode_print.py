@@ -28,7 +28,6 @@ class SaleBarcodePrint(Document):
                 'qty': work_order.qty,
                 'work_order': work_order.name
             })
-            self.save()
             frappe.db.commit()
 
     @frappe.whitelist()
