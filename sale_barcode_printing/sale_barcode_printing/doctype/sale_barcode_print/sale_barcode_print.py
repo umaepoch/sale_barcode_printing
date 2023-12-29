@@ -10,29 +10,18 @@ import base64
 from frappe.core.utils import html2text
 
 class SaleBarcodePrint(Document):
-
-    def validate(self):
-        barcode_details = []
-        for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
-            work_order = frappe.get_doc("Work Order", wo.get('name'))
-            row = self.append('barcode_details', {})
-            row.product = work_order.item_name
-            row.item_code = work_order.production_item
-            row.qty = work_order.qty
-            row.work_order = work_order.name
-
     @frappe.whitelist()
     def get_workorders(self):
         barcode_details = []
-        # for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
-        #     work_order = frappe.get_doc("Work Order", wo.get('name'))
-        #     barcode_details.append({
-        #         'product': work_order.item_name,
-        #         'item_code': work_order.production_item,
-        #         'qty': work_order.qty,
-        #         'work_order': work_order.name
-        #     })
-        
+        for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
+            work_order = frappe.get_doc("Work Order", wo.get('name'))
+            barcode_details.append({
+                'product': work_order.item_name,
+                'item_code': work_order.production_item,
+                'qty': work_order.qty,
+                'work_order': work_order.name
+            })
+        self.update({'barcode_details':barcode_details})
 
     @frappe.whitelist()
     def print_labels(self):
