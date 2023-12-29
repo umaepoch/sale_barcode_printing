@@ -22,13 +22,14 @@ class SaleBarcodePrint(Document):
             #     'qty': work_order.qty,
             #     'work_order': work_order.name
             # })
-            self.append("barcode_details", {
-                'product': work_order.item_name,
-                'item_code': work_order.production_item,
-                'qty': work_order.qty,
-                'work_order': work_order.name
-            })
-            frappe.db.commit()
+            if not self.barcode_details:
+                self.append("barcode_details", {
+                    'product': work_order.item_name,
+                    'item_code': work_order.production_item,
+                    'qty': work_order.qty,
+                    'work_order': work_order.name
+                })
+                frappe.db.commit()
 
     @frappe.whitelist()
     def print_labels(self):
