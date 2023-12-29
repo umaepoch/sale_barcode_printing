@@ -16,13 +16,20 @@ class SaleBarcodePrint(Document):
         barcode_details = []
         for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
             work_order = frappe.get_doc("Work Order", wo.get('name'))
-            barcode_details.append({
+            # barcode_details.append({
+            #     'product': work_order.item_name,
+            #     'item_code': work_order.production_item,
+            #     'qty': work_order.qty,
+            #     'work_order': work_order.name
+            # })
+            self.append("barcode_details", {
                 'product': work_order.item_name,
                 'item_code': work_order.production_item,
                 'qty': work_order.qty,
                 'work_order': work_order.name
             })
-        self.update({'barcode_details':barcode_details})
+            self.save()
+            frappe.db.commit()
 
     @frappe.whitelist()
     def print_labels(self):
