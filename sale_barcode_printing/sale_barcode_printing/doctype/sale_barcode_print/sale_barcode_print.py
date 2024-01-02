@@ -52,6 +52,8 @@ class SaleBarcodePrint(Document):
                 barcode = frappe.generate_hash(line.item_code,10)
                 product.update({'barcodes': [{'barcode': barcode}]})
                 product.save()
+            else:
+                barcode = product.barcodes[0].barcode
             if product.image:
                 file_url = frappe.utils.get_url(product.image)
                 r = requests.get(file_url, stream=True)
