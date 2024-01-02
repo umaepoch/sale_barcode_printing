@@ -40,7 +40,7 @@ class SaleBarcodePrint(Document):
                     'product': work_order.item_name,
                     'item_code': work_order.production_item,
                     'qty': work_order.qty,
-                    'work_order': work_order.name
+                    'work_order': work_order.name,
                     'package_size': product.package_size
                 })
                 workk_orders.append(work_order.name)
