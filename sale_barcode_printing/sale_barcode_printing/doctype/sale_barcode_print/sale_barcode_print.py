@@ -17,13 +17,14 @@ class SaleBarcodePrint(Document):
         for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
             work_order = frappe.get_doc("Work Order", wo.get('name'))
             if work_order.name not in workk_orders:
-                self.append("barcode_details", {
+                barcode_details.append({
                     'product': work_order.item_name,
                     'item_code': work_order.production_item,
                     'qty': work_order.qty,
                     'work_order': work_order.name
                 })
                 workk_orders.append(work_order.name)
+        return barcode_details
         # self.update({'barcode_details':barcode_details})
 
     @frappe.whitelist()
