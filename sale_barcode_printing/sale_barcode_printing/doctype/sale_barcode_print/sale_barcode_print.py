@@ -17,11 +17,13 @@ class SaleBarcodePrint(Document):
         for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
             work_order = frappe.get_doc("Work Order", wo.get('name'))
             if work_order.name not in workk_orders:
+                product = frappe.get_doc("Item", work_order.item_name)
                 barcode_details.append({
                     'product': work_order.item_name,
                     'item_code': work_order.production_item,
                     'qty': work_order.qty,
-                    'work_order': work_order.name
+                    'work_order': work_order.name,
+                    'package_size': product.package_size
                 })
                 workk_orders.append(work_order.name)
         self.update({'barcode_details':barcode_details})
@@ -33,11 +35,13 @@ class SaleBarcodePrint(Document):
         for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
             work_order = frappe.get_doc("Work Order", wo.get('name'))
             if work_order.name not in workk_orders:
+                product = frappe.get_doc("Item", work_order.item_name)
                 barcode_details.append({
                     'product': work_order.item_name,
                     'item_code': work_order.production_item,
                     'qty': work_order.qty,
                     'work_order': work_order.name
+                    'package_size': product.package_size
                 })
                 workk_orders.append(work_order.name)
         self.update({'barcode_details':barcode_details})
