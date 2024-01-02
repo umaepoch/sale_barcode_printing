@@ -68,3 +68,4 @@ class SaleBarcodePrint(Document):
                 line.save()
                 print(label)
             counter += 1
+        self.save()
