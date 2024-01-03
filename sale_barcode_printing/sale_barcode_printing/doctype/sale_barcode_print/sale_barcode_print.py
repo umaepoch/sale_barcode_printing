@@ -10,28 +10,30 @@ import base64
 from frappe.core.utils import html2text
 
 class SaleBarcodePrint(Document):
-    @frappe.whitelist()
-    def get_workorders(self):
-        barcode_details = []
-        workk_orders = []
-        for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
-            work_order = frappe.get_doc("Work Order", wo.get('name'))
-            if work_order.name not in workk_orders:
-                product = frappe.get_doc("Item", work_order.item_name)
-                barcode_details.append({
-                    'product': work_order.item_name,
-                    'item_code': work_order.production_item,
-                    'qty': work_order.qty,
-                    'work_order': work_order.name,
-                    'package_size': product.package_size
-                })
-                workk_orders.append(work_order.name)
-        self.update({'barcode_details':barcode_details})
+    # @frappe.whitelist()
+    # def get_workorders(self):
+    #     barcode_details = []
+    #     workk_orders = []
+    #     for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
+    #         work_order = frappe.get_doc("Work Order", wo.get('name'))
+    #         if work_order.name not in workk_orders:
+    #             product = frappe.get_doc("Item", work_order.item_name)
+    #             barcode_details.append({
+    #                 'product': work_order.item_name,
+    #                 'item_code': work_order.production_item,
+    #                 'qty': work_order.qty,
+    #                 'work_order': work_order.name,
+    #                 'package_size': product.package_size
+    #             })
+    #             workk_orders.append(work_order.name)
+    #     self.update({'barcode_details':barcode_details})
 
     @frappe.whitelist()
     def print_labels(self):
         barcode_details = []
         workk_orders = []
+        so = self.sales_order
+        store_location = frappe.db.get_value('Sales Order', so, 'store_location')
         for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
             work_order = frappe.get_doc("Work Order", wo.get('name'))
             if work_order.name not in workk_orders:
@@ -64,13 +66,13 @@ class SaleBarcodePrint(Document):
                     zpl = response.text
                     a = zpl.split("^GFA,")
                     b = a[-1].split("^XZ")
-                    label = "^XA\n^CF0,50\n^FO30,15^FD%s^FS\n^FO30,60^GB1100,3,3^FS\n^FO30,75^FDMadurai^FS\n^CF0,95\n^FO980,85^FD%s^FS\n^FO30,175^GB1100,3,3^FS\n^CF0,40\n^FO40,190^FDContainer^FS\n^FO30,235^GB1100,3,3^FS\n^FO470,300^GFA,%s\n^CF0,35\n^FO40,575^FD%s^FS\n^FO1050,575^FD%s^FS\n^BY6,2,160\n^FO120,630^BC^FD%s^FS\n^CF0,30\n^FO40,840^FD%s^FS\n^FO1010,840^FD%s^FS\n^FO40,880^GB1100,3,3^FS\n^CF0,130\n^FO40,900^FDSHARK^FS\n^CF0,30\n^FO560,900^FDShark Shopfits Pvt.Ltd^FS\n^FO560,930^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO560,965^FD201306,Greater Noida (UP)^FS\n^FO560,995^FDPh +91 1204811000^FS\n^XZ" %(barcode,counter,b[0],html2text(product.description),line.package_size,barcode,line.item_code, product.size)
+                    label = "^XA\n^CF0,50\n^FO30,15^FD%s^FS\n^FO30,60^GB1100,3,3^FS\n^FO30,75^FD%s^FS\n^CF0,95\n^FO980,85^FD%s^FS\n^FO30,175^GB1100,3,3^FS\n^CF0,40\n^FO40,190^FDContainer^FS\n^FO30,235^GB1100,3,3^FS\n^FO470,300^GFA,%s\n^CF0,35\n^FO40,575^FD%s^FS\n^FO1050,575^FD%s^FS\n^BY6,2,160\n^FO120,630^BC^FD%s^FS\n^CF0,30\n^FO40,840^FD%s^FS\n^FO1010,840^FD%s^FS\n^FO40,880^GB1100,3,3^FS\n^CF0,130\n^FO40,900^FDSHARK^FS\n^CF0,30\n^FO560,900^FDShark Shopfits Pvt.Ltd^FS\n^FO560,930^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO560,965^FD201306,Greater Noida (UP)^FS\n^FO560,995^FDPh +91 1204811000^FS\n^XZ" %(barcode,counter,store_location,b[0],html2text(product.description),line.package_size,barcode,line.item_code, product.size)
                     line.update({'item_image': label})
                     print(label)
                 except requests.exceptions.RequestException:
                     print(response.text)
             else:
-                label = "^XA\n^CF0,50\n^FO30,15^FD%s^FS\n^FO30,60^GB1100,3,3^FS\n^FO30,75^FDMadurai^FS\n^CF0,95\n^FO980,85^FD%s^FS\n^FO30,175^GB1100,3,3^FS\n^CF0,40\n^FO40,190^FDContainer^FS\n^FO30,235^GB1100,3,3^FS\n^CF0,35\n^FO40,575^FD%s^FS\n^FO1050,575^FD%s^FS\n^BY6,2,160\n^FO120,630^BC^FD%s^FS\n^CF0,30\n^FO40,840^FD%s^FS\n^FO1010,840^FD%s^FS\n^FO40,880^GB1100,3,3^FS\n^CF0,130\n^FO40,900^FDSHARK^FS\n^CF0,30\n^FO560,900^FDShark Shopfits Pvt.Ltd^FS\n^FO560,930^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO560,965^FD201306,Greater Noida (UP)^FS\n^FO560,995^FDPh +91 1204811000^FS\n^XZ" %(barcode,counter,b[0],html2text(product.description),line.package_size,barcode,line.item_code, product.size)
+                label = "^XA\n^CF0,50\n^FO30,15^FD%s^FS\n^FO30,60^GB1100,3,3^FS\n^FO30,75^FD%s^FS\n^CF0,95\n^FO980,85^FD%s^FS\n^FO30,175^GB1100,3,3^FS\n^CF0,40\n^FO40,190^FDContainer^FS\n^FO30,235^GB1100,3,3^FS\n^CF0,35\n^FO40,575^FD%s^FS\n^FO1050,575^FD%s^FS\n^BY6,2,160\n^FO120,630^BC^FD%s^FS\n^CF0,30\n^FO40,840^FD%s^FS\n^FO1010,840^FD%s^FS\n^FO40,880^GB1100,3,3^FS\n^CF0,130\n^FO40,900^FDSHARK^FS\n^CF0,30\n^FO560,900^FDShark Shopfits Pvt.Ltd^FS\n^FO560,930^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO560,965^FD201306,Greater Noida (UP)^FS\n^FO560,995^FDPh +91 1204811000^FS\n^XZ" %(barcode,counter,store_location,b[0],html2text(product.description),line.package_size,barcode,line.item_code, product.size)
                 line.update({'item_image': label})
                 line.save()
                 print(label)
