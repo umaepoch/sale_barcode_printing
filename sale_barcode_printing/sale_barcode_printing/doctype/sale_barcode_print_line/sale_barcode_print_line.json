@@ -38,7 +38,7 @@
   },
   {
     "fieldname": "package_size",
-    "fieldtype": "Float",
+    "fieldtype": "Data",
     "in_list_view": 1,
     "label": "Package Size"
   },
