@@ -27,7 +27,7 @@
     {
         "fieldname": "print_labels",
         "fieldtype": "Button",
-        "label": "Print Labels",
+        "label": "Generate Labels",
         "options": "print_labels"
     },
     {
