@@ -10,24 +10,6 @@ import base64
 from frappe.core.utils import html2text
 
 class SaleBarcodePrint(Document):
-    # @frappe.whitelist()
-    # def get_workorders(self):
-    #     barcode_details = []
-    #     workk_orders = []
-    #     for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order]]):
-    #         work_order = frappe.get_doc("Work Order", wo.get('name'))
-    #         if work_order.name not in workk_orders:
-    #             product = frappe.get_doc("Item", work_order.item_name)
-    #             barcode_details.append({
-    #                 'product': work_order.item_name,
-    #                 'item_code': work_order.production_item,
-    #                 'qty': work_order.qty,
-    #                 'work_order': work_order.name,
-    #                 'package_size': product.package_size
-    #             })
-    #             workk_orders.append(work_order.name)
-    #     self.update({'barcode_details':barcode_details})
-
     @frappe.whitelist()
     def print_labels(self):
         barcode_details = []
@@ -76,13 +58,11 @@ class SaleBarcodePrint(Document):
                         a = zpl.split("^GFA,")
                         if a:
                             b = a[-1].split("^XZ")
-                            label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,125^FD%s^FS\n^CF0,50\n^FO620,125^FD%s^FS\n^FO30,235^GB1100,3,3^FS\n^CF0,40\n^FO40,250^FDContainer^FS\n^FO30,295^GB1100,3,3^FS\n^FO470,370^GFA,%s\n^CF0,50\n^FO40,705^FD%s^FS\n^FO1070,705^FD%s^FS\n^BY7,2,190\n^FO90,790^BC^FD%s^FS\n^CF0,50\n^FO40,1110^FD%s^FS\n^FO1020,1110^FD%s^FS\n^FO40,1180^GB1100,3,3^FS\n^CF0,165\n^FO40,1270^FDSHARK^FS\n^CF0,40\n^FO590,1250^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1295^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1340^FD201306,Greater Noida (UP)^FS\n^FO590,1390^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,b[0],product_desc,line.package_size,barcode,line.item_code, product.size)
-                            line.update({'item_label': label})
-                            print(label)
+                            label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,125^FD%s^FS\n^CF0,50\n^FO620,125^FD%s^FS\n^FO30,215^GB1100,3,3^FS\n^CF0,40\n^FO40,230^FDContainer^FS\n^FO30,275^GB1100,3,3^FS\n^FO240,340^GFA,%s\n^CF0,50\n^FO40,1105^FD%s^FS\n^FO1070,1105^FD%s^FS\n^BY7,2,190\n^FO90,1200^BC^FD%s^FS\n^CF0,50\n^FO40,1480^FD%s^FS\n^FO1020,1480^FD%s^FS\n^FO40,1180^GB1100,3,3^FS\n^CF0,165\n^FO40,1570^FDSHARK^FS\n^CF0,40\n^FO590,1550^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1595^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1640^FD201306,Greater Noida (UP)^FS\n^FO590,1690^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,b[0],product_desc,line.package_size,barcode,line.item_code, product.size)
                         else:
-                            label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,125^FD%s^FS\n^CF0,50\n^FO620,125^FD%s^FS\n^FO30,235^GB1100,3,3^FS\n^CF0,40\n^FO40,250^FDContainer^FS\n^FO30,295^GB1100,3,3^FS\n^CF0,50\n^FO40,705^FD%s^FS\n^FO1070,705^FD%s^FS\n^BY7,2,190\n^FO90,790^BC^FD%s^FS\n^CF0,50\n^FO40,1110^FD%s^FS\n^FO1020,1110^FD%s^FS\n^FO40,1180^GB1100,3,3^FS\n^CF0,165\n^FO40,1270^FDSHARK^FS\n^CF0,40\n^FO590,1250^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1295^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1340^FD201306,Greater Noida (UP)^FS\n^FO590,1390^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,product_desc,line.package_size,barcode,line.item_code, product.size)
-                            line.update({'item_label': label})
-                            line.save()
+                            label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,125^FD%s^FS\n^CF0,50\n^FO620,125^FD%s^FS\n^FO30,215^GB1100,3,3^FS\n^CF0,40\n^FO40,230^FDContainer^FS\n^FO30,275^GB1100,3,3^FS\n^CF0,50\n^FO40,1105^FD%s^FS\n^FO1070,1105^FD%s^FS\n^BY7,2,190\n^FO90,1200^BC^FD%s^FS\n^CF0,50\n^FO40,1480^FD%s^FS\n^FO1020,1480^FD%s^FS\n^FO40,1180^GB1100,3,3^FS\n^CF0,165\n^FO40,1570^FDSHARK^FS\n^CF0,40\n^FO590,1550^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1595^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1640^FD201306,Greater Noida (UP)^FS\n^FO590,1690^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,product_desc,line.package_size,barcode,line.item_code, product.size)
+                        line.update({'item_label': label})
+                        line.save()
                     except requests.exceptions.RequestException:
                         print(response.text)
                 else:
@@ -91,20 +71,18 @@ class SaleBarcodePrint(Document):
                         a = zpl.split("^GFA,")
                         if a:
                             b = a[-1].split("^XZ")
-                            label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,105^FD%s^FS\n^CF0,50\n^FO750,125^FD%s^FS\n^FO30,235^GB1100,3,3^FS\n^CF0,40\n^FO40,250^FDContainer^FS\n^FO30,295^GB1100,3,3^FS\n^FO470,340^GFA,%s\n^CF0,35\n^FO40,625^FD%s^FS\n^FO1050,575^FD%s^FS\n^BY6,2,160\n^FO120,690^BC^FD%s^FS\n^CF0,30\n^FO40,920^FD%s^FS\n^FO970,910^FD%s^FS\n^FO40,960^GB1100,3,3^FS\n^CF0,150\n^FO40,1010^FDSHARK^FS\n^CF0,30\n^FO590,1000^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1040^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1085^FD201306,Greater Noida (UP)^FS\n^FO590,1130^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,b[0],product_desc,line.package_size,barcode,line.item_code, product.size)
-                            line.update({'item_label': label})
-                            print(label)
+                            label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,125^FD%s^FS\n^CF0,50\n^FO870,125^FD%s^FS\n^FO30,215^GB1100,3,3^FS\n^CF0,40\n^FO40,230^FDContainer^FS\n^FO30,275^GB1100,3,3^FS\n^FO240,340^GFA,%s\n^CF0,50\n^FO40,1105^FD%s^FS\n^FO1070,1105^FD%s^FS\n^BY7,2,190\n^FO90,1200^BC^FD%s^FS\n^CF0,50\n^FO40,1480^FD%s^FS\n^FO1020,1480^FD%s^FS\n^FO40,1180^GB1100,3,3^FS\n^CF0,165\n^FO40,1570^FDSHARK^FS\n^CF0,40\n^FO590,1550^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1595^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1640^FD201306,Greater Noida (UP)^FS\n^FO590,1690^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,b[0],product_desc,line.package_size,barcode,line.item_code, product.size)
                         else:
-                            label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,125^FD%s^FS\n^CF0,50\n^FO750,125^FD%s^FS\n^FO30,235^GB1100,3,3^FS\n^CF0,40\n^FO40,250^FDContainer^FS\n^FO30,295^GB1100,3,3^FS\n^CF0,50\n^FO40,705^FD%s^FS\n^FO1070,705^FD%s^FS\n^BY7,2,190\n^FO90,790^BC^FD%s^FS\n^CF0,50\n^FO40,1110^FD%s^FS\n^FO1020,1110^FD%s^FS\n^FO40,1180^GB1100,3,3^FS\n^CF0,165\n^FO40,1270^FDSHARK^FS\n^CF0,40\n^FO590,1250^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1295^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1340^FD201306,Greater Noida (UP)^FS\n^FO590,1390^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,product_desc,line.package_size,barcode,line.item_code, product.size)
-                            line.update({'item_label': label})
-                            line.save()
+                            label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,125^FD%s^FS\n^CF0,50\n^FO870,125^FD%s^FS\n^FO30,215^GB1100,3,3^FS\n^CF0,40\n^FO40,230^FDContainer^FS\n^FO30,275^GB1100,3,3^FS\n^CF0,50\n^FO40,1105^FD%s^FS\n^FO1070,1105^FD%s^FS\n^BY7,2,190\n^FO90,1200^BC^FD%s^FS\n^CF0,50\n^FO40,1480^FD%s^FS\n^FO1020,1480^FD%s^FS\n^FO40,1180^GB1100,3,3^FS\n^CF0,165\n^FO40,1570^FDSHARK^FS\n^CF0,40\n^FO590,1550^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1595^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1640^FD201306,Greater Noida (UP)^FS\n^FO590,1690^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,product_desc,line.package_size,barcode,line.item_code, product.size)
+                        line.update({'item_label': label})
+                        line.save()
                     except requests.exceptions.RequestException:
                         print(response.text)
             else:
                 if len(store_location) > 10:
-                    label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,105^FD%s^FS\n^CF0,50\n^FO620,125^FD%s^FS\n^FO30,235^GB1100,3,3^FS\n^CF0,40\n^FO40,250^FDContainer^FS\n^FO30,295^GB1100,3,3^FS\n^CF0,35\n^FO40,625^FD%s^FS\n^FO1050,575^FD%s^FS\n^BY6,2,160\n^FO120,690^BC^FD%s^FS\n^CF0,30\n^FO40,920^FD%s^FS\n^FO970,910^FD%s^FS\n^FO40,960^GB1100,3,3^FS\n^CF0,150\n^FO40,1010^FDSHARK^FS\n^CF0,30\n^FO590,1000^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1040^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1085^FD201306,Greater Noida (UP)^FS\n^FO590,1130^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,product_desc,line.package_size,barcode,line.item_code, product.size)
+                    label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,125^FD%s^FS\n^CF0,50\n^FO620,125^FD%s^FS\n^FO30,215^GB1100,3,3^FS\n^CF0,40\n^FO40,230^FDContainer^FS\n^FO30,275^GB1100,3,3^FS\n^CF0,50\n^FO40,1105^FD%s^FS\n^FO1070,1105^FD%s^FS\n^BY7,2,190\n^FO90,1200^BC^FD%s^FS\n^CF0,50\n^FO40,1480^FD%s^FS\n^FO1020,1480^FD%s^FS\n^FO40,1180^GB1100,3,3^FS\n^CF0,165\n^FO40,1570^FDSHARK^FS\n^CF0,40\n^FO590,1550^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1595^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1640^FD201306,Greater Noida (UP)^FS\n^FO590,1690^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,product_desc,line.package_size,barcode,line.item_code, product.size)
                 else:
-                    label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,125^FD%s^FS\n^CF0,45\n^FO750,125^FD%s^FS\n^FO30,235^GB1100,3,3^FS\n^CF0,40\n^FO40,250^FDContainer^FS\n^FO30,295^GB1100,3,3^FS\n^CF0,50\n^FO40,705^FD%s^FS\n^FO1070,705^FD%s^FS\n^BY7,2,190\n^FO90,790^BC^FD%s^FS\n^CF0,50\n^FO40,1110^FD%s^FS\n^FO1020,1110^FD%s^FS\n^FO40,1180^GB1100,3,3^FS\n^CF0,165\n^FO40,1270^FDSHARK^FS\n^CF0,40\n^FO590,1250^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1295^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1340^FD201306,Greater Noida (UP)^FS\n^FO590,1390^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,product_desc,line.package_size,barcode,line.item_code, product.size)
+                    label = "^XA\n^CF0,50\n^FO30,35^FD%s^FS\n^FO30,90^GB1100,3,3^FS\n^FO30,125^FD%s^FS\n^CF0,50\n^FO870,125^FD%s^FS\n^FO30,215^GB1100,3,3^FS\n^CF0,40\n^FO40,230^FDContainer^FS\n^FO30,275^GB1100,3,3^FS\n^CF0,50\n^FO40,1105^FD%s^FS\n^FO1070,1105^FD%s^FS\n^BY7,2,190\n^FO90,1200^BC^FD%s^FS\n^CF0,50\n^FO40,1480^FD%s^FS\n^FO1020,1480^FD%s^FS\n^FO40,1180^GB1100,3,3^FS\n^CF0,165\n^FO40,1570^FDSHARK^FS\n^CF0,40\n^FO590,1550^FDShark Shopfits Pvt.Ltd^FS\n^FO590,1595^FDPlotNo. 29,Udyog Vihar,Echotech II^FS\n^FO590,1640^FD201306,Greater Noida (UP)^FS\n^FO590,1690^FDPh +91 1204811000^FS\n^XZ" %(project_format,counter,store_location,product_desc,line.package_size,barcode,line.item_code, product.size)
                 line.update({'item_label': label})
                 line.save()
                 print(label)
