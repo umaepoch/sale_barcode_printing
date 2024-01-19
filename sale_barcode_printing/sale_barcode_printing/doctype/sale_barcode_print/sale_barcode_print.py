@@ -36,7 +36,7 @@ class SaleBarcodePrint(Document):
                         'item_code': work_order.production_item,
                         'qty': work_order.qty,
                         'work_order': work_order.name,
-                        'package_size': product.package_size,
+                        'package_size': pckg_sz,
                         'counter': counter_knk
                     })
                     self.update({'labels':labels})
