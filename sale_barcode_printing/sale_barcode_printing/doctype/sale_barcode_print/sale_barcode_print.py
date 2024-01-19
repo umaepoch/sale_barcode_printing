@@ -97,5 +97,4 @@ class SaleBarcodePrint(Document):
                 line.update({'item_label': label})
                 line.save()
                 print(label)
-            counter += 1
         self.save()
