@@ -12,7 +12,7 @@ from frappe.core.utils import html2text
 class SaleBarcodePrint(Document):
     @frappe.whitelist()
     def print_labels(self):
-        barcode_details = []
+        labels = []
         workk_orders = []
         so = self.sales_order
         store_location = frappe.db.get_value('Sales Order', so, 'store_location')
@@ -23,19 +23,26 @@ class SaleBarcodePrint(Document):
         project_format = project_fr1 + ' ' + project_fr2
         for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order],['status', '=', 'Completed']]):
             work_order = frappe.get_doc("Work Order", wo.get('name'))
+            product = frappe.get_doc("Item", work_order.production_item)
+            counter_knk = 1
+            pckg_sz = 1
             if work_order.name not in workk_orders:
-                product = frappe.get_doc("Item", work_order.production_item)
-                barcode_details.append({
-                    'product': work_order.item_name,
-                    'item_code': work_order.production_item,
-                    'qty': work_order.qty,
-                    'work_order': work_order.name,
-                    'package_size': product.package_size
-                })
+                if product.package_size > 1:
+                    pckg_sz = product.package_size
+                for i in range(0, pckg_sz):
+                    counter_knk += 1
+                    labels.append({
+                        'product': work_order.item_name,
+                        'item_code': work_order.production_item,
+                        'qty': work_order.qty,
+                        'work_order': work_order.name,
+                        'package_size': product.package_size,
+                        'print_number_kanak': counter_knk
+                    })
+                    self.update({'labels':labels})
                 workk_orders.append(work_order.name)
-        self.update({'barcode_details':barcode_details})
-        counter = 1
-        for line in self.barcode_details:
+        for line in self.labels:
+            counter = str(line.print_number_kanak/line.package_size)
             product = frappe.get_doc("Item", line.item_code)
             if not product.barcodes:
                 barcode = frappe.generate_hash(line.item_code,10)
