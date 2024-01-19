@@ -28,7 +28,7 @@ class SaleBarcodePrint(Document):
             pckg_sz = 1
             if work_order.name not in workk_orders:
                 if product.package_size:
-                    pckg_sz = product.package_size
+                    pckg_sz = int(product.package_size)
                 for i in range(0, pckg_sz):
                     counter_knk += 1
                     labels.append({
