@@ -42,7 +42,7 @@ class SaleBarcodePrint(Document):
                     self.update({'labels':labels})
                 workk_orders.append(work_order.name)
         for line in self.labels:
-            counter = str(line.print_number_kanak/line.package_size)
+            counter = str(line.print_number_kanak) + '/' + str(line.package_size)
             product = frappe.get_doc("Item", line.item_code)
             if not product.barcodes:
                 barcode = frappe.generate_hash(line.item_code,10)
