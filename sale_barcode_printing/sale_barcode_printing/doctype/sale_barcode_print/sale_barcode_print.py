@@ -41,8 +41,8 @@ class SaleBarcodePrint(Document):
                     })
                     self.update({'labels':labels})
                 workk_orders.append(work_order.name)
+        pckg_srl_no = 1
         for line in self.labels:
-            pckg_srl_no = 1
             counter = str(line.counter) + '/' + str(line.package_size)
             product = frappe.get_doc("Item", line.item_code)
             if not product.barcodes:
