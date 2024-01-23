@@ -20,7 +20,7 @@ class SaleBarcodePrint(Document):
         project_fr2 = ''
         project_fr1 = frappe.db.get_value('Sales Order', so, 'pch_print_name')
         project_fr2 = frappe.db.get_value('Sales Order', so, 'project_format')
-        project_format = project_fr1 + ' ' + project_fr2
+        project_format = str(project_fr1) + ' ' + str(project_fr2)
         for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order],['status', '=', 'Completed']]):
             work_order = frappe.get_doc("Work Order", wo.get('name'))
             product = frappe.get_doc("Item", work_order.production_item)
