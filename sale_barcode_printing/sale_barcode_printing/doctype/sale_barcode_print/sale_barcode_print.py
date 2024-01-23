@@ -23,7 +23,7 @@ class SaleBarcodePrint(Document):
         if project_fr2 == None:
             project_fr2 = ' '
         project_format = str(project_fr1) + ' ' + str(project_fr2)
-        for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order],['status', '=', 'Completed']]):
+        for wo in frappe.get_list("Work Order", fields=["name as name"], filters=[["sales_order", "=", self.sales_order],['status', '!=', 'Cancelled']]):
             work_order = frappe.get_doc("Work Order", wo.get('name'))
             product = frappe.get_doc("Item", work_order.production_item)
             counter_knk = 0
