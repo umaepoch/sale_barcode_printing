@@ -43,7 +43,7 @@ class SaleBarcodePrint(Document):
                     })
                     self.update({'barcode_details':barcode_details})
                 workk_orders.append(work_order.name)
-        for wod in self.print_labels:
+        for wod in self.barcode_details:
             counter_knk = 0
             box_numbers = int(wod.boxes)
             for i in range(0, box_numbers):
