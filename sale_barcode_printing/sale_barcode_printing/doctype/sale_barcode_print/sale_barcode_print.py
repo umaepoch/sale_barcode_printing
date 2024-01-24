@@ -49,10 +49,10 @@ class SaleBarcodePrint(Document):
             for i in range(0, box_numbers):
                 counter_knk += 1
                 labels.append({
-                    'product': wod.item_name,
-                    'item_code': wod.production_item,
+                    'product': wod.product,
+                    'item_code': wod.item_code,
                     'qty': wod.qty,
-                    'work_order': wod.name,
+                    'work_order': wod.work_order,
                     'package_size': pckg_sz,
                     'counter': counter_knk,
                     'boxes': box_numbers
