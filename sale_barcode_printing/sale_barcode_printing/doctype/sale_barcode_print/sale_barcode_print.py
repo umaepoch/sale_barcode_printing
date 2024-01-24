@@ -60,7 +60,7 @@ class SaleBarcodePrint(Document):
                 self.update({'labels':labels})
         pckg_srl_no = 1
         for line in self.labels:
-            counter = str(line.counter) + '/' + str(line.box_numbers)
+            counter = str(line.counter) + '/' + str(line.boxes)
             product = frappe.get_doc("Item", line.item_code)
             if not product.barcodes:
                 barcode = frappe.generate_hash(line.item_code,10)
