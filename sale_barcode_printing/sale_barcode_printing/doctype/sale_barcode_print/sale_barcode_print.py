@@ -12,7 +12,7 @@ from frappe.core.utils import html2text
 class SaleBarcodePrint(Document):
     @frappe.whitelist()
     def print_labels(self):
-        print_labels = []
+        barcode_details = []
         labels = []
         workk_orders = []
         so = self.sales_order
@@ -33,7 +33,7 @@ class SaleBarcodePrint(Document):
                 if product.package_size:
                     pckg_sz = int(product.package_size)
                     boxess = int(work_order.qty)/pckg_sz
-                    print_labels.append({
+                    barcode_details.append({
                         'product': work_order.item_name,
                         'item_code': work_order.production_item,
                         'qty': work_order.qty,
@@ -41,7 +41,7 @@ class SaleBarcodePrint(Document):
                         'package_size': pckg_sz,
                         'boxes': boxess
                     })
-                    self.update({'print_labels':print_labels})
+                    self.update({'barcode_details':barcode_details})
                 workk_orders.append(work_order.name)
         for wod in self.print_labels:
             counter_knk = 0
