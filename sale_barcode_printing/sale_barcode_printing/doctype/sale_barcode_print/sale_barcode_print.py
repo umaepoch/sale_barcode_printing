@@ -120,8 +120,8 @@ class SaleBarcodePrint(Document):
 
     @frappe.whitelist()
     def update_labels(self):
-    	pckg_srl_no = 1
-    	for line in self.labels:
+        pckg_srl_no = 1
+        for line in self.labels:
             counter = line.counter
             product = frappe.get_doc("Item", line.item_code)
             if not product.barcodes:
