@@ -139,7 +139,7 @@ class SaleBarcodePrint(Document):
                 product.save()
             else:
                 barcode = product.barcodes[0].barcode
-            product_desc = line.description
+            product_desc = line.item_code
             if product.image:
                 file_url = frappe.utils.get_url(product.image)
                 r = requests.get(file_url, stream=True)
