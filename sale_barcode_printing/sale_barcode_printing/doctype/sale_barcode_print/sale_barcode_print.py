@@ -53,8 +53,8 @@ class SaleBarcodePrint(Document):
               box_numbers = int(wod.boxes) + 1
             for i in range(0, box_numbers):
                 counter_knk += 1
-                if i == wod.boxes:
-                  qty = extra_box_ns
+                if i == len(box_numbers) - 1:
+                  qty = box_numbers
                 labels.append({
                     'product': wod.product,
                     'item_code': wod.item_code,
