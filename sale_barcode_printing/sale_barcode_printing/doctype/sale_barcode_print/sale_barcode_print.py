@@ -48,14 +48,16 @@ class SaleBarcodePrint(Document):
             extra_box_ns = wod.qty % wod.package_size
             if extra_box_ns == 0:
               box_numbers = int(wod.boxes)
+              qty = wod.qty
             else:
               box_numbers = int(wod.boxes) + 1
+              qty = extra_box_ns
             for i in range(0, box_numbers):
                 counter_knk += 1
                 labels.append({
                     'product': wod.product,
                     'item_code': wod.item_code,
-                    'qty': wod.qty,
+                    'qty': qty,
                     'work_order': wod.work_order,
                     'package_size': pckg_sz,
                     'counter': counter_knk,
@@ -126,7 +128,7 @@ class SaleBarcodePrint(Document):
     def update_labels(self):
         pckg_srl_no = 1
         for line in self.labels:
-            counter = line.counter
+            counter = str(line.counter) + '/' + str(line.boxes)
             so = self.sales_order
             store_location = frappe.db.get_value('Sales Order', so, 'store_location')
             project_fr1 = ''
