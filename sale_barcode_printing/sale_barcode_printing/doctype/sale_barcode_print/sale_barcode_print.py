@@ -123,6 +123,17 @@ class SaleBarcodePrint(Document):
         pckg_srl_no = 1
         for line in self.labels:
             counter = line.counter
+            so = self.sales_order
+            store_location = frappe.db.get_value('Sales Order', so, 'store_location')
+            project_fr1 = ''
+            project_fr2 = ''
+            project_fr1 = frappe.db.get_value('Sales Order', so, 'pch_print_name')
+            project_fr2 = frappe.db.get_value('Sales Order', so, 'project_format')
+            if project_fr2 == None:
+                project_fr2 = ' '
+            project_format = str(project_fr1) + ' ' + str(project_fr2)
+            store_location = line.store_location
+
             product = frappe.get_doc("Item", line.item_code)
             if not product.barcodes:
                 barcode = frappe.generate_hash(line.item_code,10)
@@ -130,7 +141,7 @@ class SaleBarcodePrint(Document):
                 product.save()
             else:
                 barcode = product.barcodes[0].barcode
-            product_desc = line.item_code
+            product_desc = line.description
             if product.image:
                 file_url = frappe.utils.get_url(product.image)
                 r = requests.get(file_url, stream=True)
