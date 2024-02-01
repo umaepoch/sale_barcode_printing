@@ -132,8 +132,6 @@ class SaleBarcodePrint(Document):
             if project_fr2 == None:
                 project_fr2 = ' '
             project_format = str(project_fr1) + ' ' + str(project_fr2)
-            store_location = line.store_location
-
             product = frappe.get_doc("Item", line.item_code)
             if not product.barcodes:
                 barcode = frappe.generate_hash(line.item_code,10)
