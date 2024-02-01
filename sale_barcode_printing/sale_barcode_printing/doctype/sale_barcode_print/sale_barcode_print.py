@@ -48,23 +48,22 @@ class SaleBarcodePrint(Document):
             extra_box_ns = wod.qty % wod.package_size
             if extra_box_ns == 0:
               box_numbers = int(wod.boxes)
-              qty = wod.qty
             else:
               box_numbers = int(wod.boxes) + 1
             for i in range(0, box_numbers):
                 counter_knk += 1
-                if i == (box_numbers - 1):
-                  qty = box_numbers
                 labels.append({
                     'product': wod.product,
                     'item_code': wod.item_code,
-                    'qty': qty,
+                    'qty': wod.qty,
                     'work_order': wod.work_order,
                     'package_size': pckg_sz,
                     'counter': counter_knk,
                     'boxes': box_numbers
                 })
                 self.update({'labels':labels})
+            if extra_box_ns != 0:
+              self.labels[-1].update({pckg_sz: extra_box_ns})
         pckg_srl_no = 1
         for line in self.labels:
             counter = str(line.counter) + '/' + str(line.boxes)
