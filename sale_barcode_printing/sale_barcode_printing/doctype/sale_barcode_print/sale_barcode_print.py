@@ -62,8 +62,12 @@ class SaleBarcodePrint(Document):
                     'boxes': box_numbers
                 })
                 self.update({'labels':labels})
+            print('labels>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', self.labels)
+            print('extra_box_ns>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', extra_box_ns)
+            print('last_packg_sz>>>>>>>>>>>>>>>>>>>>/////////////////////', self.labels[-1].pckg_sz)
             if extra_box_ns > 0:
                 self.labels[-1].pckg_sz = extra_box_ns
+                print('last_packg_sz>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>/////////////////////', self.labels[-1].pckg_sz)
         pckg_srl_no = 1
         for line in self.labels:
             counter = str(line.counter) + '/' + str(line.boxes)
