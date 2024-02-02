@@ -64,7 +64,7 @@ class SaleBarcodePrint(Document):
                 self.update({'labels':labels})
             print('labels>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', self.labels)
             print('extra_box_ns>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', extra_box_ns)
-            print('last_packg_sz>>>>>>>>>>>>>>>>>>>>/////////////////////', self.labels[-1].pckg_sz)
+            # print('last_packg_sz>>>>>>>>>>>>>>>>>>>>/////////////////////', self.labels[-1].pckg_sz)
             if extra_box_ns > 0:
                 self.labels[-1].pckg_sz = extra_box_ns
                 print('last_packg_sz>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>/////////////////////', self.labels[-1].pckg_sz)
