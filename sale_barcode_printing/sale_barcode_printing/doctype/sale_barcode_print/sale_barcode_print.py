@@ -63,11 +63,14 @@ class SaleBarcodePrint(Document):
                 })
                 self.update({'labels':labels})
             print('labels>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', self.labels)
-            print('extra_box_ns>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', extra_box_ns)
             # print('last_packg_sz>>>>>>>>>>>>>>>>>>>>/////////////////////', self.labels[-1].pckg_sz)
             if extra_box_ns > 0:
-                self.labels[-1].pckg_sz = extra_box_ns
-                print('last_packg_sz>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>/////////////////////', self.labels[-1].pckg_sz)
+                print('extra_box_ns>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', extra_box_ns)
+                barcode_print_no = self.name
+                print_line_name = frappe.get_list('Sale Barcode Label Line', filters={'parent': ['=', barcode_print_no]})
+                if print_line_name:
+                    print_line_no = print_line_name[-1].name
+                    frappe.set_value('Sale Barcode Label Line', print_line_no, 'package_size', extra_box_ns)
         pckg_srl_no = 1
         for line in self.labels:
             counter = str(line.counter) + '/' + str(line.boxes)
