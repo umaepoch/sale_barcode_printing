@@ -70,6 +70,7 @@ class SaleBarcodePrint(Document):
                     'counter': counter_knk + 1,
                     'boxes': box_numbers + 1
                 })
+                self.append({'labels':extra_label_line})
         pckg_srl_no = 1
         for line in self.labels:
             counter = str(line.counter) + '/' + str(line.boxes)
