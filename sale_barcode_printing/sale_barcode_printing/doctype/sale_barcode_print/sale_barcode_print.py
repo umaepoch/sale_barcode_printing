@@ -14,6 +14,7 @@ class SaleBarcodePrint(Document):
     def print_labels(self):
         barcode_details = []
         labels = []
+        extra_label_line = []
         workk_orders = []
         so = self.sales_order
         store_location = frappe.db.get_value('Sales Order', so, 'store_location')
@@ -46,10 +47,6 @@ class SaleBarcodePrint(Document):
         for wod in self.barcode_details:
             counter_knk = 0
             extra_box_ns = wod.qty % wod.package_size
-            if extra_box_ns == 0:
-              box_numbers = int(wod.boxes)
-            else:
-              box_numbers = int(wod.boxes) + 1
             for i in range(0, box_numbers):
                 counter_knk += 1
                 labels.append({
@@ -62,15 +59,16 @@ class SaleBarcodePrint(Document):
                     'boxes': box_numbers
                 })
                 self.update({'labels':labels})
-            print('labels>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', self.labels)
-            # print('last_packg_sz>>>>>>>>>>>>>>>>>>>>/////////////////////', self.labels[-1].pckg_sz)
             if extra_box_ns > 0:
-                print('extra_box_ns>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', extra_box_ns)
-                barcode_print_no = self.name
-                print_line_name = frappe.get_list('Sale Barcode Label Line', filters={'parent': ['=', barcode_print_no]})
-                if print_line_name:
-                    print_line_no = print_line_name[-1].name
-                    frappe.set_value('Sale Barcode Label Line', print_line_no, 'package_size', extra_box_ns)
+                extra_label_line.append({
+                    'product': wod.product,
+                    'item_code': wod.item_code,
+                    'qty': wod.qty,
+                    'work_order': wod.work_order,
+                    'package_size': box_numbers,
+                    'counter': counter_knk + 1,
+                    'boxes': box_numbers
+                })
         pckg_srl_no = 1
         for line in self.labels:
             counter = str(line.counter) + '/' + str(line.boxes)
