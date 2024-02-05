@@ -60,7 +60,7 @@ class SaleBarcodePrint(Document):
                     'boxes': box_numbers + 1
                 })
                 self.update({'labels':labels})
-            if extra_box_ns > 0:
+            if extra_box_ns != 0:
                 extra_label_line.append({
                     'product': wod.product,
                     'item_code': wod.item_code,
