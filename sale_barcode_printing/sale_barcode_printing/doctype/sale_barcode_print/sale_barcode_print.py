@@ -152,7 +152,7 @@ class SaleBarcodePrint(Document):
             else:
                 barcode = product.barcodes[0].barcode
             product_desc = line.product
-            if len(product_descd) > 40:
+            if len(product_desc) > 40:
             	product_desc = product_desc[40]
             if product.image:
                 file_url = frappe.utils.get_url(product.image)
